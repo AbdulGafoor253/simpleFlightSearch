@@ -1,0 +1,126 @@
+﻿.container {
+    background: aliceblue;
+}
+
+.banner {
+    padding-left: 43%;
+    color: #fff;
+    font-size: 30px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.error {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-radius: 10%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.spnerror
+{
+color: red;
+font-weight:500;
+font-size:12px;
+padding-left: 5%;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #fff;
+    background-color: #fff;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        min-height: 642px;
+        min-width: 1349px;
+    }
+
+    .col-lg-2 {
+        width: 24%;
+    }
+
+    .col-md-2 {
+        width: 23.666667%;
+    }
+}
+
+
+
+.tableresp {
+    overflow-x: auto;
+}
+
+@media (max-width: 900px) and (min-width: 0px) {
+    .searchbox {
+        width: 100%;
+    }
+}
+
+
+
+@media (min-width: 992px) {
+    .col-md-2 {
+        width: 23.666667%;
+    }
+}
+
+@media (max-width: 1366px) and (min-width: 1300px) {
+    .searchbox {
+        width: 67%;
+        margin-left: 19%;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .col-sm-2 {
+        width: 24.666667%;
+    }
+}
+
+.table {
+    border: 1px solid #a9a3a3;
+}
+
+
+tbody:nth-child(even) {
+    background: #CCC;
+}
+
+tbody:nth-child(odd) {
+    background: #FFF;
+}
+
+.searchbox {
+    /*#6b8ea2*/
+    background: transparent;
+    padding: 2%;
+    border-radius: 19px;
+    border: 1px solid #ccc;
+    background: radial-gradient(#100d0d, #2d2b2b00);
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #fffcfc;
+    border: 0;
+    border-bottom: 1px solid #ffffff;
+}
+
+

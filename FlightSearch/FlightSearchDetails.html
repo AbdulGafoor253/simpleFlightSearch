@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Flight</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="./Styles/bootstrap.min.css">
+    <script src="./Scripts/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.js"></script>
+    <script src="./Scripts/angularjs-datetime-picker.js"></script>
+    <link href="./Styles/angularjs-datetime-picker.css" rel="stylesheet" />
+
+    <link href="./Styles/SampleFlightSearch.css" rel="stylesheet" />
+    <script src="./Scripts/FlightSampleModule.js"></script>
+
+
+
+
+</head>
+<body>
+    <div style="border:6px solid silver">
+
+
+        <div class="container" style="background-image: url('http://emergences.inria.fr/2015/L39_EMERGENCES/L38-COMANOID/images/avion.jpg?isImage=1'); background-size: cover; ">
+            <div class="banner">
+                <label>Flight Search</label>
+            </div>
+            <div ng-app="FlightSearch" ng-controller="SearchFlightController">
+                <form id="FlightSearchForm" name="FlightSearchForm">
+
+                    <div class="searchbox">
+                        <div class="row">
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <label>Flight Number</label>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <input name="FlightNumber" type="text"  placeholder="Flight Number" id="FlightNumber" class="form-control" ng-model="SF.FlightNumber" title="Please Enter Flight Number"
+                                       ng-change="DisableOrigandDest()" ng-disabled="IsDisFlightNumber" ng-required="!((SF.FlightNumber.length||(SF.Origin.length && SF.Destination.length)))" ng-minlength="2" ng-maxlength="4" />
+
+                                <span class="spnerror" ng-show="(FlightSearchForm.FlightNumber.$error.minlength)">Minimum Length is 2</span>
+                                <span class="spnerror" ng-show=" (FlightSearchForm.FlightNumber.$error.maxlength)">Maximum Length is 4</span>
+
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <label>Departure Date</label>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+
+                                <input name="DepartureDate" type="text" id="DepartureDate" placeholder="Departure Date" class="form-control"
+                                       ng-model="SF.DepartureDate" ng-required="true" datetime-picker date-format="yyyy-MM-dd" date-only readonly />
+
+
+
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <label>Origin</label>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <input name="Origin" type="text" id="Origin"   class="form-control" placeholder="Origin" ng-model="SF.Origin"
+                                       ng-change="DisableFlightNumber()" ng-disabled="IsDisOrigin" ng-required="!((SF.FlightNumber.length||(SF.Origin.length && SF.Destination.length)))" ng-minlength="2" ng-maxlength="3"/>
+                              
+                                <span class="spnerror" ng-show=" (FlightSearchForm.Origin.$error.minlength)">Minimum Length is 2</span>
+                                <span class="spnerror" ng-show=" (FlightSearchForm.Origin.$error.maxlength)">Maximum Length is 3</span>
+
+
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <label>Destination</label>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+                                <input name="Destination" type="text" id="Destination" placeholder="Destination" class="form-control" ng-model="SF.Destination"
+                                       ng-change="DisableFlightNumber()" ng-disabled="IsDisDestination" ng-required="!((SF.FlightNumber.length||(SF.Origin.length && SF.Destination.length)))" ng-minlength="2" ng-maxlength="3" />
+                           
+                                <span class="spnerror" ng-show="(FlightSearchForm.Destination.$error.minlength)">Minimum Length is 2</span>
+                                <span class="spnerror" ng-show="(FlightSearchForm.Destination.$error.maxlength)">Maximum Length is 3</span>
+
+                             </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-2 col-md-2 col-xs-12 col-lg-2" style="padding-left:46%">
+
+                                <button class="btn btn-success" ng-click="SearchFlights(SF)" ng-disabled="FlightSearchForm.$invalid">Search</button>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="error" ng-if="errorshow">
+                        <span style="color: red;font-weight:500;font-size: 20px;padding-left: 6%;" ng-show="((FlightSearchForm.FlightNumber.$touched||(FlightSearchForm.Origin.$touched && FlightSearchForm.Destination.$touched))&&(FlightSearchForm.FlightNumber.$dirty||(FlightSearchForm.Origin.$dirty && FlightSearchForm.Destination.$dirty)))">
+
+                            <span ng-show="(FlightSearchForm.FlightNumber.$error.required||((FlightSearchForm.Origin.$error.required)&&(FlightSearchForm.Destination.$error.required)))">
+
+                               Error in the entry of (Flight Number / Origin and destination)
+                            </span>
+                        </span>
+                        <br />
+                        <br />
+                        <br />
+
+                        <span style="color: red;font-weight:500;font-size: 20px;padding-left: 6%;" ng-show="FlightSearchForm.DepartureDate.$dirty && FlightSearchForm.DepartureDate.$touched">
+                            <span ng-show="FlightSearchForm.DepartureDate.$error.required"> &nbsp;&nbsp;&nbsp;&nbsp;Departure Date is required</span>
+                        </span>
+
+                    </div>
+                    <br />
+
+                    <div ng-if="success">
+                        <label style=" font-size: 20px; font-weight: 600;">Flight Search Details</label>
+                        <div class="tableresp">
+
+                            <table class="table table-bordered">
+                                <thead style="color: white; background: radial-gradient(#000000, #fbf7f700); ">
+                                    <tr>
+                                        <th class="col-xs-3" style="width: 10%;">FlightNumber</th>
+                                        <th class="col-xs-3" style="width: 10%;">Carrier</th>
+                                        <th class="col-xs-3" style="width: 10%;">Origin</th>
+                                        <th class="col-xs-6" style="width: 20%;">Departure</th>
+                                        <th class="col-xs-3" style="width: 10%;">Destination</th>
+                                        <th class="col-xs-6" style="width: 20%;">Arrival</th>
+                                        <th class="col-xs-6" style="width: 10%;">Aircraft</th>
+                                        <th class="col-xs-3" style="width: 10%;">Distance</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="flight in flights">
+                                    <tr style="color: #403c3c;">
+                                        <td>{{flight.flightNumber}}</td>
+                                        <td>{{flight.carrier}}</td>
+                                        <td>{{flight.origin}}</td>
+                                        <td>{{flight.departure}}</td>
+                                        <td>{{flight.destination}}</td>
+                                        <td>{{flight.arrival}}</td>
+                                        <td>{{flight.aircraft}}</td>
+                                        <td>{{flight.distance}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
